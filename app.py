@@ -1,30 +1,25 @@
+
 import streamlit as st
 import numpy as np
 import pickle
 
+# load model
 model = pickle.load(open("model.pkl", "rb"))
 
 st.title("💳 Credit Card Fraud Detection")
 
-st.write("Enter all features:")
+st.write("Enter transaction details:")
 
-features = []
+# inputs
+time = st.number_input("Transaction Time")
+amount = st.number_input("Transaction Amount")
+v1 = st.number_input("V1")
+v2 = st.number_input("V2")
 
-# Time
-time = st.number_input("Time")
-features.append(time)
-
-# V1 to V28
-for i in range(1, 29):
-    val = st.number_input(f"V{i}")
-    features.append(val)
-
-# Amount
-amount = st.number_input("Amount")
-features.append(amount)
-
+# prediction
 if st.button("Predict"):
-    input_data = np.array([features])
+    
+    input_data = np.array([[time, v1, v2, amount]])
     
     result = model.predict(input_data)
     
